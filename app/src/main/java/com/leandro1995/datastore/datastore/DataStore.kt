@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.createDataStore
 import kotlinx.coroutines.flow.first
@@ -11,11 +12,14 @@ import kotlinx.coroutines.flow.first
 
 object DataStore {
     private lateinit var dataStore: DataStore<Preferences>
-    private lateinit var dataStoreKey: Preferences.Key<String>
     private lateinit var preferences: Preferences
 
+    private lateinit var stringDataStoreKey: Preferences.Key<String>
+    private lateinit var intDataStoreKey: Preferences.Key<Int>
+
     private const val DATA_STORE_NAME = "data_store"
-    private const val MESSAGE = "message"
+    private const val NAME = "name"
+    private const val AGE = "age"
 
     suspend fun instance(context: Context) {
         dataStore = context.createDataStore(name = DATA_STORE_NAME)
@@ -23,15 +27,28 @@ object DataStore {
     }
 
     suspend fun setMessage(value: String) {
-        dataStoreKey = stringPreferencesKey(MESSAGE)
+        stringDataStoreKey = stringPreferencesKey(NAME)
 
         dataStore.edit { preference ->
-            preference[dataStoreKey] = value
+            preference[stringDataStoreKey] = value
         }
     }
 
-    fun getMessage(): String? {
-        dataStoreKey = stringPreferencesKey(MESSAGE)
-        return preferences[dataStoreKey]
+    fun getMessage(): String {
+        stringDataStoreKey = stringPreferencesKey(NAME)
+        return preferences[stringDataStoreKey] ?: ""
+    }
+
+    suspend fun setAge(value: Int) {
+        intDataStoreKey = intPreferencesKey(AGE)
+
+        dataStore.edit { preference ->
+            preference[intDataStoreKey] = value
+        }
+    }
+
+    fun getAge(): Int {
+        intDataStoreKey = intPreferencesKey(AGE)
+        return preferences[intDataStoreKey] ?: -1
     }
 }
