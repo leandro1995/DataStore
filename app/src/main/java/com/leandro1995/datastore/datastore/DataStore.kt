@@ -26,7 +26,7 @@ object DataStore {
         preferences = dataStore.data.first()
     }
 
-    suspend fun setMessage(value: String) {
+    suspend fun setName(value: String) {
         stringDataStoreKey = stringPreferencesKey(NAME)
 
         dataStore.edit { preference ->
@@ -34,7 +34,7 @@ object DataStore {
         }
     }
 
-    fun getMessage(): String {
+    fun getName(): String {
         stringDataStoreKey = stringPreferencesKey(NAME)
         return preferences[stringDataStoreKey] ?: ""
     }

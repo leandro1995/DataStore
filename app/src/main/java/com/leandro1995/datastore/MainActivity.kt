@@ -25,15 +25,15 @@ class MainActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
-                DataStore.setMessage(value = nameEditText.text.toString())
+                DataStore.setName(value = nameEditText.text.toString())
                 DataStore.setAge(value = ageEditText.text.toString().toInt())
 
                 messageText.text = "${nameEditText.text} ${ageEditText.text}"
             }
         }
 
-        if (DataStore.getMessage().isNotEmpty()) {
-            messageText.text = "${DataStore.getMessage()} ${DataStore.getAge()}"
+        if (DataStore.getName().isNotEmpty()) {
+            messageText.text = "${DataStore.getName()} ${DataStore.getAge()}"
         }
     }
 }
