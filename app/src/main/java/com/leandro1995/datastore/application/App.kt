@@ -10,8 +10,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        GlobalScope.launch {
-            DataStore.instance(context = applicationContext)
-        }
+        DataStore.instance(context = applicationContext)
     }
 }

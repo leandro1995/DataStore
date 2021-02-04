@@ -7,7 +7,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.createDataStore
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 
 object DataStore {
@@ -21,9 +23,12 @@ object DataStore {
     private const val NAME = "name"
     private const val AGE = "age"
 
-    suspend fun instance(context: Context) {
+    fun instance(context: Context) {
         dataStore = context.createDataStore(name = DATA_STORE_NAME)
-        preferences = dataStore.data.first()
+
+        GlobalScope.launch {
+            preferences = dataStore.data.first()
+        }
     }
 
     suspend fun setName(value: String) {
